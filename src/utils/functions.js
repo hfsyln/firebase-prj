@@ -26,20 +26,23 @@ export const AddData = (values) => {
 
 export const GetUser = () => {
   const [contactList, setContactList] = useState();
+  const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
     const db = getDatabase();
     const userRef = ref(db, "users");
     onValue(userRef, (snapshot) => {
       const data = snapshot.val();
-      const baglantiArray = [];
+      const userArray = [];
 
+      //default olarak gelen id ve diğer user bilgilerini arraya puşhla li id sonr lazım olacak
       for (let id in data) {
-        baglantiArray.push({ id, ...data[id] });
+        userArray.push({ id, ...data[id] });
       }
-      setContactList(baglantiArray);
+      setContactList(userArray);
+      setIsLoading(false)
     });
   }, []);
-  return { contactList };
+  return { contactList, isLoading };
 };
 
 // !Get user için ikinci opsiyon kod bloğu..
